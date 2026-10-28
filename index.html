@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Khosrow (Mahdi) Yusefi</title>
+<meta name="description" content="Khosrow (Mahdi) Yusefi — distributed systems engineer. Event sourcing, CQRS, Kubernetes and real-time platforms for high-traffic products.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F5F2EB; --surface:#FFFFFF; --ink:#17243A; --muted:#687586;
+  --line:#D8D5CC; --signal:#B96F3B; --signal-soft:#F0E3D8; --node:#FFFFFF;
+  --sans:"Schibsted Grotesk",system-ui,sans-serif; --serif:"Newsreader",Georgia,serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F1828; --surface:#16223A; --ink:#E6ECF4; --muted:#93A1B5;
+    --line:#2B3A55; --signal:#D4915E; --signal-soft:#3A2A1E; --node:#16223A;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F1828; --surface:#16223A; --ink:#E6ECF4; --muted:#93A1B5;
+  --line:#2B3A55; --signal:#D4915E; --signal-soft:#3A2A1E; --node:#16223A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--signal);outline-offset:3px;border-radius:4px}
+.wrap{max-width:1320px;margin:0 auto;padding:0 16px}
+@media(min-width:720px){.wrap{padding:0 32px}}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 20px;padding:22px 0}
+.top .mark{font-weight:700;text-decoration:none;letter-spacing:-.01em}
+.top nav{display:flex;flex-wrap:wrap;gap:6px 20px;font-size:15px;color:var(--muted)}
+.top nav a{text-decoration:none}
+.top nav a:hover{color:var(--ink)}
+
+/* hero */
+.hero{display:grid;gap:22px;padding:48px 0 64px}
+@media(min-width:960px){.hero{grid-template-columns:1fr 1fr;gap:56px;align-items:end;padding:72px 0 80px}}
+.hero h1{font-size:clamp(48px,8vw,96px);line-height:.95;font-weight:800;letter-spacing:-.04em}
+.hero .lede{font-family:var(--serif);font-size:clamp(21px,2.3vw,25px);line-height:1.4;max-width:32ch}
+.hero .role{margin-top:14px;color:var(--muted);font-size:16px;max-width:46ch}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+.btn{display:inline-block;padding:11px 18px;border-radius:8px;font-weight:600;font-size:15px;text-decoration:none;border:1.5px solid var(--ink)}
+.btn.primary{background:var(--ink);color:var(--paper)}
+.btn:hover{border-color:var(--signal)}
+
+/* showcase */
+.show-hint{font-size:15px;color:var(--muted);margin-top:6px}
+.show{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px 16px 28px;margin-bottom:24px}
+@media(min-width:720px){.show{padding:32px 32px 36px}}
+.show h2{font-size:clamp(24px,2.8vw,32px);font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.tabs{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(160px,1fr);gap:8px;margin-top:22px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.tabs button{align-self:start;font:inherit;background:none;border:none;text-align:left;cursor:pointer;color:var(--muted);padding:12px 2px 2px;position:relative}
+.tabs button::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;border-radius:2px;background:var(--line)}
+.tabs button::after{content:"";position:absolute;left:0;top:0;height:3px;width:0;border-radius:2px;background:var(--signal)}
+.tabs button[aria-pressed="true"]{color:var(--ink)}
+.tabs button[aria-pressed="true"]::after{width:100%}
+.tabs button.run::after{width:0;animation:fill var(--dur,7s) linear forwards}
+.show.paused .tabs button.run::after{animation-play-state:paused}
+@keyframes fill{to{width:100%}}
+.tabs .p{display:block;font-size:13px;font-variant-numeric:tabular-nums}
+.tabs .l{display:block;font-weight:600;font-size:15px;line-height:1.3;margin-top:2px}
+.stage{display:grid;gap:24px;margin-top:28px}
+@media(min-width:900px){.stage{grid-template-columns:minmax(340px,4fr) 8fr;gap:40px;align-items:center}}
+.story .period{font-size:15px;color:var(--muted)}
+.story .period strong{display:block;color:var(--ink);font-size:21px;font-weight:700;letter-spacing:-.01em;margin-bottom:2px}
+.wins{list-style:none;margin-top:18px;border-bottom:1px solid var(--line)}
+.wins li{border-top:1px solid var(--line)}
+.win{font:inherit;color:var(--muted);background:none;border:none;width:100%;text-align:left;cursor:pointer;display:grid;grid-template-columns:132px 1fr 28px;gap:14px;align-items:center;padding:14px 8px;margin:0 -8px;width:calc(100% + 16px);border-radius:8px;transition:background .15s}
+.win:hover{background:var(--paper)}
+.win .chev{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;color:var(--ink);transition:transform .2s,border-color .15s,background .15s}
+.win:hover .chev{border-color:var(--signal)}
+.win[aria-expanded="true"] .chev{transform:rotate(180deg);background:var(--signal);border-color:var(--signal);color:var(--surface)}
+.win .chev svg{width:12px;height:12px}
+.win .m{font-size:24px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.win .nm{font-size:16px;font-weight:600;line-height:1.35}
+.win[aria-expanded="true"]{color:var(--ink)}
+.win[aria-expanded="true"] .m{color:var(--signal)}
+.win:hover{color:var(--ink)}
+.detail{padding:0 36px 18px 146px}
+.detail[hidden]{display:none}
+.detail p{font-family:var(--serif);font-size:17.5px;line-height:1.55;max-width:48ch}
+@media(max-width:520px){.win{grid-template-columns:96px 1fr 28px}.win .m{font-size:20px}.detail{padding-left:0}}
+.topo-cap{font-size:13px;color:var(--muted);margin-top:8px;padding:0 4px}
+@media(min-width:900px){.stage{align-items:start}.topo{position:sticky;top:20px}}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tags span{font-size:13px;padding:3px 9px;border-radius:5px;background:var(--paper);border:1px solid var(--line);color:var(--muted)}
+.topo{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:8px}
+.topo svg{display:block;width:100%;height:auto}
+.topo .n rect{fill:var(--node);stroke:var(--ink);stroke-width:1.4}
+.topo .n.store rect{fill:var(--surface);stroke:var(--muted)}
+.topo .n.hot rect{stroke:var(--signal);stroke-width:2}
+.topo .n .t{font:600 12.5px var(--sans);fill:var(--ink)}
+.topo .n .s{font:400 10.5px var(--sans);fill:var(--muted)}
+.topo .e{fill:none;stroke:var(--muted);stroke-width:1.3}
+.topo .e.dash{stroke-dasharray:4 4}
+.topo .frame{fill:none;stroke:var(--line);stroke-width:1.4;stroke-dasharray:6 5}
+.topo .frame-l{font:500 11px var(--sans);fill:var(--muted)}
+.topo .dot{fill:var(--signal)}
+
+/* sections */
+section.block{padding:72px 0;border-top:1px solid var(--line)}
+.block h2{font-size:clamp(28px,3.4vw,38px);font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.block .intro{font-family:var(--serif);font-size:20px;color:var(--muted);margin-top:10px;max-width:52ch}
+
+/* case studies */
+.cases{margin-top:44px;display:grid;gap:0}
+.case{display:grid;gap:14px;padding:30px 0;border-top:1px solid var(--line)}
+.case:first-child{border-top:none;padding-top:0}
+@media(min-width:860px){.case{grid-template-columns:260px 1fr;gap:40px}}
+.case .result{font-size:clamp(34px,4vw,46px);font-weight:800;letter-spacing:-.03em;line-height:1}
+.case .result small{display:block;font-size:14px;font-weight:500;letter-spacing:0;color:var(--muted);margin-top:8px;line-height:1.35}
+.case h3{font-size:21px;font-weight:700;letter-spacing:-.01em}
+.case .where{font-size:14px;color:var(--muted);margin-top:2px}
+.case p.body{font-family:var(--serif);font-size:18.5px;line-height:1.6;margin-top:10px;max-width:62ch}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.tags span{font-size:13px;padding:3px 9px;border-radius:5px;background:var(--surface);border:1px solid var(--line);color:var(--muted)}
+
+/* timeline */
+.timeline{margin-top:40px;list-style:none;position:relative}
+.timeline li{display:grid;gap:4px;padding:18px 0 18px 26px;position:relative}
+.timeline li::before{content:"";position:absolute;left:5px;top:0;bottom:0;width:1.5px;background:var(--line)}
+.timeline li::after{content:"";position:absolute;left:0;top:26px;width:12px;height:12px;border-radius:50%;background:var(--paper);border:2px solid var(--ink)}
+.timeline li:first-child::after{background:var(--signal);border-color:var(--signal)}
+@media(min-width:760px){.timeline li{grid-template-columns:170px 1fr;gap:28px}}
+.timeline .when{font-size:14px;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+.timeline h3{font-size:18px;font-weight:600}
+.timeline h3 span{font-weight:400;color:var(--muted)}
+.timeline p{font-size:15.5px;color:var(--muted);margin-top:3px;max-width:64ch}
+
+/* projects */
+.projects{margin-top:36px}
+.proj{display:grid;gap:10px;padding:26px 0;border-top:1px solid var(--line)}
+.proj:last-child{border-bottom:1px solid var(--line)}
+@media(min-width:860px){.proj{grid-template-columns:300px 1fr;gap:44px}}
+.proj h3{font-size:22px;font-weight:700;letter-spacing:-.015em}
+.live{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--ink);margin-top:6px;padding:3px 10px 3px 8px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.live::before{content:"";width:8px;height:8px;border-radius:50%;background:#2E9E6A;box-shadow:0 0 0 3px rgba(46,158,106,.18)}
+.proj-meta{font-size:14px;color:var(--muted);margin-top:8px}
+.proj-stack{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.5}
+.proj-what{font-family:var(--serif);font-size:19px;line-height:1.45}
+.proj ul{list-style:none;display:grid;gap:8px;margin-top:12px}
+.proj li{padding-left:18px;position:relative;font-size:15.5px;color:var(--ink);max-width:68ch}
+.proj li::before{content:"";position:absolute;left:0;top:.62em;width:7px;height:7px;background:var(--signal);border-radius:2px}
+
+/* skills */
+.toolbox{padding:48px 0 56px}
+.toolbox .skills{margin-top:24px}
+.skills{margin-top:36px;display:grid;gap:0}
+.skills div{display:grid;gap:4px;padding:14px 0;border-top:1px solid var(--line)}
+@media(min-width:760px){.skills div{grid-template-columns:220px 1fr;gap:28px}}
+.skills dt{font-weight:600;font-size:15.5px}
+.skills dd{color:var(--muted);font-size:15.5px}
+
+/* contact */
+.contact{padding:80px 0 56px;border-top:1px solid var(--line)}
+.contact h2{font-size:clamp(32px,5vw,56px);font-weight:800;letter-spacing:-.03em;line-height:1.02;max-width:16ch}
+.contact .actions{margin-top:28px}
+footer{padding:28px 0 40px;color:var(--muted);font-size:14px}
+
+@media (prefers-reduced-motion:reduce){
+  .win,.win .chev{transition:none}
+  html{scroll-behavior:auto}
+  .dot{display:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <a class="mark" href="#">Khosrow (Mahdi) Yusefi</a>
+  <nav aria-label="Sections">
+    <a href="#toolbox">Toolbox</a>
+    <a href="#work">Work</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero">
+  <h1>Khosrow (Mahdi) Yusefi</h1>
+  <div class="hero-text">
+    <p class="lede">I design the backends of high-traffic products, and the migrations that keep them fast as they grow.</p>
+    <p class="role">Distributed systems engineer with 12 years on the JVM. Event sourcing, CQRS, Kubernetes and real-time delivery. Based in Tehran.</p>
+    <div class="actions">
+      <a class="btn primary" href="mailto:khosrowyusefi@gmail.com">Email me</a>
+      <a class="btn" href="https://www.linkedin.com/in/khosrow-yusefi-410301b7/" rel="noopener">LinkedIn</a>
+      <a class="btn" href="resume.pdf" download="Khosrow-Mahdi-Yusefi-CV.pdf">Download CV</a>
+    </div>
+  </div>
+</section>
+
+<section class="block toolbox" id="toolbox">
+  <h2>Toolbox</h2>
+  <dl class="skills">
+    <div><dt>Languages and frameworks</dt><dd>Java, Kotlin, Go, Spring Boot, Python, TypeScript, Ktor, Hibernate, Jersey</dd></div>
+    <div><dt>Distributed systems</dt><dd>Microservices, event sourcing, CQRS, Kafka, gRPC, Protocol Buffers, NATS</dd></div>
+    <div><dt>Data</dt><dd>PostgreSQL, Redis, Elasticsearch, Cassandra, ScyllaDB, MongoDB</dd></div>
+    <div><dt>Infrastructure</dt><dd>Kubernetes, Docker, GitLab CI/CD, ArgoCD, Istio, Nginx, Harbor</dd></div>
+    <div><dt>Practices</dt><dd>Domain-driven design, test-driven development, platform migrations</dd></div>
+    <div><dt>Mobile and client SDKs</dt><dd>Android apps in Kotlin (MVVM + MVI), React Native with Expo, SDK design for Android and React clients</dd></div>
+    <div><dt>LLM integration</dt><dd>OpenAI and Gemini APIs behind one interface, live model switching, schema-validated output (Zod), Firebase Cloud Functions</dd></div>
+  </dl>
+</section>
+
+<section class="show" id="work" aria-labelledby="show-h">
+  <h2 id="show-h">What I built, role by role</h2>
+  <p class="show-hint">Pick a role, then open any result to see how it works.</p>
+  <div class="tabs" role="group" aria-label="Choose a period"></div>
+  <div class="stage">
+    <div class="story" aria-live="off">
+      <p class="period"></p>
+      <ul class="wins"></ul>
+    </div>
+    <figure class="topo">
+      <svg id="topo" viewBox="6 16 548 336" role="img" aria-labelledby="topo-title">
+        <title id="topo-title">Architecture of the selected system</title>
+      </svg>
+      <figcaption class="topo-cap"></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="block" id="experience">
+  <h2>Experience</h2>
+  <ol class="timeline">
+    <li><span class="when">Jan 2026 – now</span><div><h3>Senior Software Engineer, Platform Reliability <span>· Oddrun</span></h3><p>Deployment safety and automated quality: a Control Tower for fleet deployments, two-device Android E2E in CI, and an acceptance-testing service with its operator panel.</p></div></li>
+    <li><span class="when">Oct 2024 – Jan 2026</span><div><h3>Software Engineer <span>· Oddrun</span></h3><p>Moved from team lead to hands-on architect to own a greenfield real-time messaging platform and its SDKs.</p></div></li>
+    <li><span class="when">May 2022 – Oct 2024</span><div><h3>Software Team Lead <span>· Oddrun / Nazdika</span></h3><p>Led 4 engineers with ownership of the backend roadmap and architecture. Event sourcing and CQRS, recommendations, matching, analytics.</p></div></li>
+    <li><span class="when">Mar 2021 – May 2022</span><div><h3>Senior Software Engineer <span>· Oddrun / Nazdika</span></h3><p>Kubernetes migration, replicated cache, recommendation microservice and a bank gateway switcher that widened payment coverage.</p></div></li>
+    <li><span class="when">May 2019 – Mar 2021</span><div><h3>Software Engineer <span>· Oddrun / Nazdika</span></h3><p>Brought 5xx and failed purchases under 3%, rewrote 6 Python services in Java with TDD and DDD, moved messages to Elasticsearch.</p></div></li>
+    <li><span class="when">Dec 2017 – May 2019</span><div><h3>Software Engineer <span>· 4Charkh</span></h3><p>Spare-parts marketplace: accounting, orders, payments, and a scheduler for service reminders.</p></div></li>
+    <li><span class="when">Oct 2014 – Dec 2017</span><div><h3>Backend Developer <span>· Self-employed</span></h3><p>Backend systems for Teen Dairy Co and Domino Ice Cream &amp; Dairy Co.</p></div></li>
+  </ol>
+</section>
+
+<section class="block" id="projects">
+  <h2>Independent projects</h2>
+  <p class="intro">Products I designed and built end to end outside my main job, from backend and data model to clients and deployment. All three are in production and in use.</p>
+  <div class="projects">
+    <article class="proj">
+      <div class="proj-head">
+        <h3>Sales Manager</h3>
+        <p class="live">In production</p>
+        <p class="proj-meta">2026 · B2B sales and distribution</p>
+        <p class="proj-stack">Spring Boot · PostgreSQL · Expo · Docker · nginx</p>
+      </div>
+      <div class="proj-body">
+        <p class="proj-what">Ordering, pricing and distribution platform for wholesale sales teams.</p>
+        <ul>
+          <li>Spring Boot API covering catalogue, pricing, VAT, discount policies, orders, invoices and distribution routes.</li>
+          <li>One Expo app for web, iOS and Android with seven role-based areas: admin, approver, supervisor, seller, employee, customer and platform.</li>
+          <li>Self-hosted with Docker, nginx and TLS behind Cloudflare across website, API, panel and CDN subdomains.</li>
+        </ul>
+      </div>
+    </article>
+    <article class="proj">
+      <div class="proj-head">
+        <h3>Sales Control Tower</h3>
+        <p class="live">In production</p>
+        <p class="proj-meta">2026 · used by a food distributor's sales team</p>
+        <p class="proj-stack">Spring Boot 4 · SQL Server (read-only) · Expo</p>
+      </div>
+      <div class="proj-body">
+        <p class="proj-what">Sales and inventory decision dashboards on top of a live ERP database.</p>
+        <ul>
+          <li>Read-only API over the ERP schema, including Jalali dates, receivables and net sales after returns, with nothing written back to the ERP.</li>
+          <li>24 report pages in 6 groups: executive KPIs, targets against actuals, portfolio concentration and alerts.</li>
+          <li>Role-scoped logins so each seller and supervisor sees only their own numbers.</li>
+        </ul>
+      </div>
+    </article>
+    <article class="proj">
+      <div class="proj-head">
+        <h3>PackCRM</h3>
+        <p class="live">In production</p>
+        <p class="proj-meta">2026 · used by a packaging printer's sales team</p>
+        <p class="proj-stack">Spring Boot · PostgreSQL · React · TypeScript</p>
+      </div>
+      <div class="proj-body">
+        <p class="proj-what">Lead-to-customer CRM driven by the company's real order history.</p>
+        <ul>
+          <li>Six calculation engines: per-customer buying cycle, 9-level RFM segmentation, 7-factor call priority and cross-sell suggestions.</li>
+          <li>21 screens and 47 tested control rules; thresholds live in database tables, so tuning needs no redeploy.</li>
+          <li>Moved from a spreadsheet-backed prototype to a multi-user API without rewriting the business logic.</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+
+<section class="contact" id="contact">
+  <h2>Building something that has to stay fast at scale?</h2>
+  <div class="actions">
+    <a class="btn primary" href="mailto:khosrowyusefi@gmail.com">khosrowyusefi@gmail.com</a>
+    <a class="btn" href="https://www.linkedin.com/in/khosrow-yusefi-410301b7/" rel="noopener">LinkedIn</a>
+  </div>
+</section>
+</main>
+
+<footer>Computer Science, Sharif University of Technology</footer>
+</div>
+
+<script>
+(function(){
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const svg = document.getElementById('topo');
+  const NS = 'http://www.w3.org/2000/svg';
+  const DUR = 8000;
+
+  function N(x,y,w,h,t,s,cls){return {x,y,w,h,t,s,cls:cls||''};}
+  const R = n => [n.x+n.w, n.y+n.h/2], L = n => [n.x, n.y+n.h/2];
+  const B = n => [n.x+n.w/2, n.y+n.h], T = n => [n.x+n.w/2, n.y];
+  function curve(a,b){const dx=(b[0]-a[0])/2;return `M${a[0]},${a[1]} C${a[0]+dx},${a[1]} ${b[0]-dx},${b[1]} ${b[0]},${b[1]}`;}
+  function vline(a,b){const dy=(b[1]-a[1])/2;return `M${a[0]},${a[1]} C${a[0]},${a[1]+dy} ${b[0]},${b[1]-dy} ${b[0]},${b[1]}`;}
+
+  const diagrams = {
+    k8s:{cap:'Monolith on Kubernetes with an event-driven replicated cache', build(){
+      const a=N(14,150,92,44,'Mobile apps','180K DAU'), g=N(150,150,80,44,'Ingress','Istio');
+      const pods=[]; [0,1,2].forEach(c=>[0,1].forEach(r=>pods.push(N(258+c*94,74+r*64,82,44,'Pod '+(r*3+c+1),'monolith','hot'))));
+      const bus=N(258,216,270,34,'NATS · cache invalidation events');
+      const pg=N(258,284,124,40,'PostgreSQL','','store'), rd=N(404,284,124,40,'Redis','','store');
+      const edges=[[curve(R(a),L(g))],[curve(R(g),L(pods[0]))],[curve(R(g),L(pods[1]))]];
+      pods.filter((_,i)=>i%2===1).forEach(p=>edges.push([vline(B(p),T(bus)),true]));
+      return {nodes:[a,g,...pods,bus,pg,rd], edges, frame:[136,40,410,302,'Kubernetes cluster']};
+    }},
+    bank:{cap:'Payment routing across several bank gateways', build(){
+      const a=N(14,158,100,44,'In-app purchase'), p=N(150,158,110,44,'Payment service'),
+            sw=N(298,158,118,44,'Gateway switcher','routing · failover','hot'),
+            b1=N(446,62,100,44,'Bank gateway','provider A','store'), b2=N(446,158,100,44,'Bank gateway','provider B','store'), b3=N(446,254,100,44,'Bank gateway','provider C','store');
+      return {nodes:[a,p,sw,b1,b2,b3], edges:[[curve(R(a),L(p)),true],[curve(R(p),L(sw)),true],[curve(R(sw),L(b1)),true],[curve(R(sw),L(b2))],[curve(R(sw),L(b3)),false,true]]};
+    }},
+    cqrs:{cap:'Gateway rebuilt on event sourcing and CQRS', build(){
+      const a=N(14,158,86,44,'Mobile apps'), g=N(122,158,86,44,'Gateway','gRPC'),
+            c=N(238,70,116,44,'Commands'), ev=N(238,158,116,44,'Event log','NATS','hot'), pr=N(238,246,116,44,'Projections'),
+            r1=N(400,40,146,40,'PostgreSQL','profiles','store'), r2=N(400,112,146,40,'Redis','feeds · sessions','store'),
+            r3=N(400,184,146,40,'Elasticsearch','search · matching','store'), r4=N(400,256,146,40,'Ranking','recommendations');
+      return {nodes:[a,g,c,ev,pr,r1,r2,r3,r4], edges:[
+        [curve(R(a),L(g))],[curve(R(g),L(c))],[vline(B(c),T(ev)),true],[vline(B(ev),T(pr)),true],
+        [curve(R(pr),L(r1)),true],[curve(R(pr),L(r2)),true],[curve(R(pr),L(r3)),true],[curve(R(pr),L(r4)),true],
+        ['M165,202 C165,330 470,330 473,296',false,true]]};
+    }},
+    recs:{cap:'Analytics pipeline feeding offline signals into real-time ranking', build(){
+      const ev=N(14,70,104,44,'User actions','views · likes'), pl=N(150,70,120,44,'Analytics pipeline','NATS'),
+            bt=N(300,70,116,44,'Offline batches','Python'), sg=N(446,70,100,44,'Signals','PostgreSQL','store'),
+            fc=N(446,180,100,44,'Feature cache','Redis','store'), cd=N(300,262,116,44,'Candidates','Elasticsearch','store'),
+            rk=N(150,180,120,44,'Real-time ranking','multi-signal','hot'), fd=N(14,180,104,44,'Feed');
+      return {nodes:[ev,pl,bt,sg,fc,cd,rk,fd], edges:[
+        [curve(R(ev),L(pl)),true],[curve(R(pl),L(bt)),true],[curve(R(bt),L(sg)),true],[vline(B(sg),T(fc)),true],
+        [curve(L(fc),R(rk)),true],[curve(L(cd),R(rk)),true],[curve(L(rk),R(fd)),true]]};
+    }},
+    match:{cap:'Geo index plus preference scoring', build(){
+      const pf=N(14,96,104,44,'Profile updates','location · prefs'), ix=N(150,96,104,44,'Indexer','events'),
+            es=N(296,150,120,44,'Geo index','Elasticsearch','store'), ds=N(14,216,104,44,'Discovery'),
+            mt=N(150,216,104,44,'Matching','Kotlin','hot'), sc=N(446,150,100,44,'Scoring','prefs · activity'),
+            sn=N(446,256,100,44,'Seen set','Redis','store'), ch=N(296,256,120,44,'Chat');
+      return {nodes:[pf,ix,es,ds,mt,sc,sn,ch], edges:[
+        [curve(R(pf),L(ix)),true],[curve(R(ix),L(es)),true],[curve(R(ds),L(mt))],[curve(R(mt),L(es)),true],
+        [curve(R(es),L(sc)),true],[vline(B(sc),T(sn))],[curve(R(mt),L(ch)),false,true]]};
+    }},
+    msg:{cap:'Real-time messaging platform and its SDKs', build(){
+      const a1=N(14,106,100,44,'Android SDK','Kotlin'), a2=N(14,214,100,44,'React SDK','TypeScript'),
+            api=N(150,160,104,44,'Public API','SDK contract'),
+            d=N(292,96,116,44,'Delivery','latency budget','hot'), f=N(292,224,116,44,'Fan-out','Go'),
+            s=N(440,96,106,44,'ScyllaDB','history','store'), r=N(440,224,106,44,'Redis','presence · queues','store');
+      return {nodes:[a1,a2,api,d,f,s,r], edges:[
+        [curve(R(a1),L(api)),true],[curve(R(a2),L(api)),true],[curve(R(api),L(d)),true],[curve(R(api),L(f))],
+        [curve(R(d),L(s)),true],[curve(R(f),L(r)),true],[vline(B(d),T(f)),true]]};
+    }},
+    ctower:{cap:'Control Tower: requested change, actual sync, health evidence and recovery in one place', build(){
+      const src=[['GitLab','pipelines'],['Fleet','deploy config'],['Argo CD','syncs'],['Kubernetes','runtime state'],['Prometheus','metrics']]
+        .map((x,i)=>N(14,24+i*66,104,44,x[0],x[1],'store'));
+      const ing=N(146,156,120,44,'Ingestion','signed · idempotent'),
+            led=N(290,62,116,44,'Change ledger','who · what · when','store'),
+            inv=N(290,156,116,44,'Inventory graph','clusters · deps','store'),
+            wat=N(290,250,116,44,'Regression watch','vs. baseline','hot'),
+            view=N(440,108,106,44,'Operator view','links to Grafana'),
+            rb=N(440,222,106,44,'Audited rollback','via GitLab/Fleet');
+      const edges=src.map(n=>[curve(R(n),L(ing)),true]);
+      edges.push([curve(R(ing),L(led)),true],[curve(R(ing),L(inv)),true],[curve(R(ing),L(wat)),true],
+                 [curve(R(led),L(view))],[curve(R(inv),L(view))],[curve(R(wat),L(view)),true],[vline(B(view),T(rb)),false,true]);
+      return {nodes:[...src,ing,led,inv,wat,view,rb], edges};
+    }},
+    e2e:{cap:'Two-device Android message tests in CI against the integration backend', build(){
+      const ci=N(14,70,104,44,'GitLab CI','KVM runner'), repo=N(14,206,104,44,'Android repo','APK + tests','store'),
+            co=N(150,138,110,44,'Go coordinator','sequencing','hot'),
+            a=N(292,60,116,44,'Emulator A','sender'), b=N(292,180,116,44,'Emulator B','receiver'),
+            be=N(440,120,106,44,'Core + EMQX','MQTT · integration'),
+            rp=N(282,288,136,44,'Reports','JUnit · HTML · evidence','store');
+      return {nodes:[ci,repo,co,a,b,be,rp], edges:[
+        [curve(R(ci),L(co))],[curve(R(repo),L(co))],[curve(R(co),L(a)),true],[curve(R(co),L(b)),true],
+        [curve(R(a),L(be)),true],[curve(L(be),R(b)),true],[vline(B(co),T(rp)),false,true]]};
+    }},
+    accept:{cap:'Operator-run acceptance tests for the Nearby people feature', build(){
+      const op=N(14,158,96,44,'Operator'), pn=N(140,158,112,44,'Acceptly panel','Expo · SSE'),
+            te=N(284,158,124,44,'TestEnterprise','Spring Boot','hot'),
+            api=N(440,70,106,44,'Nearby people','Menschen API'), geo=N(440,158,106,44,'Geo boundaries','province · county','store'),
+            arc=N(440,246,106,44,'Report archive','PostgreSQL','store'), v=N(140,272,112,40,'Vault','runtime config','store');
+      return {nodes:[op,pn,te,api,geo,arc,v], edges:[
+        [curve(R(op),L(pn))],[curve(R(pn),L(te)),true],[curve(R(te),L(api)),true],[curve(R(te),L(geo))],
+        [curve(R(te),L(arc)),true],[vline(T(v),B(pn)),false,true]]};
+    }},
+  };
+
+  const periods = [
+    { tab:'2021–2022', short:'Senior Engineer · Nazdika', role:'Senior Software Engineer', org:'Nazdika', wins:[
+      {m:'6 instances', name:'Kubernetes migration and replicated cache', d:'Containerised the platform and set the topology, service mesh and rollout strategy. An event-driven replicated cache let the stateful monolith scale out without a session store.', dg:'k8s'},
+      {m:'More banks', name:'Bank gateway switcher', d:'Routed payments across several bank gateways, widening provider coverage and directly growing revenue.', dg:'bank'},
+      {m:'New service', name:'Dating recommendation microservice', d:'Delivered the first recommendation service for the dating product, deployed on the new Kubernetes platform.', dg:'k8s'}]},
+    { tab:'2022–2024', short:'Team Lead · Nazdika', role:'Software Team Lead', org:'Nazdika · led 4 engineers, owned backend architecture', wins:[
+      {m:'4,000+ req/s', name:'Event sourcing and CQRS gateway', d:'Moved the gateway from CRUD to event sourcing. Under 30 ms latency and 20% lower infrastructure cost.', dg:'cqrs'},
+      {m:'2×', name:'Daily watch time from recommendations', d:'Multi-signal engine on Elasticsearch, PostgreSQL and Redis: offline batches feed real-time ranking.', dg:'recs'},
+      {m:'+30%', name:'Chat engagement from geo matching', d:'Location and preference-aware matching at platform scale.', dg:'match'},
+      {m:'All events', name:'Behavioural analytics pipeline', d:'Tracks user actions across the product, feeding the recommendation layer and the customer success team.', dg:'recs'}]},
+    { tab:'Oct 2024 – Jan 2026', short:'Engineer · messaging platform', role:'Software Engineer', org:'Oddrun · stepped out of team lead to own a new product', wins:[
+      {m:'0 → prod', name:'Real-time messaging platform', d:'Owned the full design: data model, ScyllaDB and Redis storage topology, service boundaries and latency budget.', dg:'msg'},
+      {m:'2 SDKs', name:'Public API and SDK contract', d:'Designed the API surface for Android and React SDKs so third parties integrate without coupling to the core.', dg:'msg'}]},
+    { tab:'Jan 2026 – now', short:'Senior Engineer · platform reliability', role:'Senior Software Engineer', org:'Oddrun · deployment safety and automated quality for Nazdika', wins:[
+      {m:'5 sources', name:'Control Tower for fleet deployments', d:'Designed a service that answers “what changed, and what happened?” It correlates GitLab pipelines, Fleet config and Argo CD syncs with Kubernetes state, watches each deployment for regressions against a baseline, and routes audited rollbacks through the existing approval workflow.', dg:'ctower'},
+      {m:'7 scenarios', name:'Android message E2E in CI', d:'Go coordinator that builds the Android app in GitLab CI, boots two emulators and runs sender and receiver tests over MQTT against the integration backend: online, offline recovery, network switches, background delivery and group chats. Produces JUnit and HTML reports with device evidence.', dg:'e2e'},
+      {m:'By county', name:'TestEnterprise acceptance service', d:'Spring Boot 4 service that runs acceptance suites against the Nearby people API. It classifies every result by distance and recent activity using Iran province and county boundaries, streams progress over SSE and archives reports, behind JWT auth and a run lock.', dg:'accept'},
+      {m:'Live runs', name:'Acceptly operator panel', d:'Expo web panel where operators start and watch acceptance runs. Revision-based SSE tables, recovery after reloads, and configuration supplied by Vault at runtime on Kubernetes.', dg:'accept'}]}
+  ];
+
+  function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;}
+
+  const groups = {};
+  for(const key in diagrams){
+    const d = diagrams[key].build(); const g = el('g',{},svg); g.style.display='none';
+    if(d.frame){const [x,y,w,h,l]=d.frame; el('rect',{class:'frame',x,y,width:w,height:h,rx:12},g); el('text',{class:'frame-l',x:x+12,y:y+20},g).textContent=l;}
+    d.edges.forEach(([path,flow,dash],k)=>{
+      el('path',{class:'e'+(dash?' dash':''),d:path},g);
+      if(flow && !reduce){
+        const c=el('circle',{class:'dot',r:3.2},g);
+        el('animateMotion',{dur:(1.6+(k%3)*0.35)+'s',repeatCount:'indefinite',path,begin:'0s'},c);
+      }
+    });
+    d.nodes.forEach(n=>{
+      const ng=el('g',{class:'n '+n.cls},g);
+      el('rect',{x:n.x,y:n.y,width:n.w,height:n.h,rx:7},ng);
+      const cx=n.x+n.w/2, cy=n.y+n.h/2;
+      el('text',{class:'t',x:cx,y:n.s?cy-2:cy+4,'text-anchor':'middle'},ng).textContent=n.t;
+      if(n.s) el('text',{class:'s',x:cx,y:cy+12,'text-anchor':'middle'},ng).textContent=n.s;
+    });
+    groups[key]=g;
+  }
+
+  const show=document.querySelector('.show'), tabs=show.querySelector('.tabs'), story=show.querySelector('.story');
+  const periodEl=story.querySelector('.period'), wins=story.querySelector('.wins'), cap=show.querySelector('.topo-cap');
+  show.style.setProperty('--dur', DUR+'ms');
+
+  let pIdx=3, playing=!reduce, paused=false, timer=null;
+  const userAct=()=>{ playing=false; story.setAttribute('aria-live','polite'); btns.forEach(b=>b.classList.remove('run')); clearTimeout(timer); };
+
+  const btns = periods.map((p,i)=>{
+    const b=document.createElement('button'); b.type='button';
+    b.innerHTML=`<span class="p">${p.tab}</span><span class="l">${p.short}</span>`;
+    b.addEventListener('click',()=>{ userAct(); selectPeriod(i); });
+    b.addEventListener('keydown',e=>{
+      if(e.key==='ArrowRight'||e.key==='ArrowLeft'){
+        e.preventDefault(); const j=(i+(e.key==='ArrowRight'?1:-1)+periods.length)%periods.length;
+        userAct(); selectPeriod(j); btns[j].focus();
+      }
+    });
+    tabs.appendChild(b); return b;
+  });
+
+  function showDiagram(key){
+    for(const k in groups) groups[k].style.display = k===key ? '' : 'none';
+    cap.textContent = diagrams[key].cap;
+  }
+
+  function selectWin(w){
+    const p=periods[pIdx];
+    [...wins.children].forEach((li,k)=>{
+      li.querySelector('.win').setAttribute('aria-expanded', k===w);
+      li.querySelector('.detail').hidden = k!==w;
+    });
+    showDiagram(p.wins[w].dg);
+  }
+
+  function selectPeriod(i){
+    pIdx=i; const p=periods[i];
+    btns.forEach((b,k)=>{ b.setAttribute('aria-pressed',k===i); b.classList.remove('run'); });
+    if(playing){ void btns[i].offsetWidth; btns[i].classList.add('run'); }
+    periodEl.innerHTML = `<strong>${p.role}</strong>${p.org}`;
+    wins.innerHTML = p.wins.map((w,k)=>`<li><button type="button" class="win" id="w${k}" aria-controls="d${k}"><span class="m">${w.m}</span><span class="nm">${w.name}</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg></span></button><div class="detail" id="d${k}"><p>${w.d}</p></div></li>`).join('');
+    [...wins.querySelectorAll('.win')].forEach((b,k)=>b.addEventListener('click',()=>{ userAct(); selectWin(k); }));
+    selectWin(0);
+    clearTimeout(timer);
+    if(playing && !paused) timer=setTimeout(()=>selectPeriod((pIdx+1)%periods.length), DUR);
+  }
+
+  show.addEventListener('mouseenter',()=>{ if(!playing) return; paused=true; show.classList.add('paused'); clearTimeout(timer); });
+  show.addEventListener('mouseleave',()=>{ if(!playing) return; paused=false; show.classList.remove('paused'); selectPeriod(pIdx); });
+
+  selectPeriod(pIdx);
+})();
+</script>
+</body>
+</html>
